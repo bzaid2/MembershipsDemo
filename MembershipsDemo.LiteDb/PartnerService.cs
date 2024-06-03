@@ -1,4 +1,5 @@
-﻿using MembershipsDemo.Interfaces;
+﻿using LiteDB;
+using MembershipsDemo.Interfaces;
 using MembershipsDemo.Models;
 
 namespace MembershipsDemo.LiteDb
@@ -7,32 +8,76 @@ namespace MembershipsDemo.LiteDb
     {
         private string tableName = "partners";
         private List<Partner> _partners;
+        private const string UserName = "Admin"; // TODO: Cambiar por usuario autenticado
 
         public List<Partner> All => _partners;
 
-        public Task<bool> AddAsync(Partner model)
+        public async Task<bool> AddAsync(Partner model)
         {
-            throw new NotImplementedException();
+            model.CreatedAt = DateTime.Now;
+            model.CreatedBy = UserName;
+            model.UpdatedAt = DateTime.Now;
+            model.UpdatedBy = UserName;
+            using (var db = new LiteDatabase(LocalData.fileDb))
+            {
+                return await Task.Run(() =>
+                {
+                    var col = db.GetCollection<Partner>(tableName);
+                    col.Insert(model);
+                    return model.Id.ToString().Length > 0;
+                });
+            }
         }
 
-        public Task<bool> DeleteAsync(int _id)
+        public async Task<bool> DeleteAsync(int _id)
         {
-            throw new NotImplementedException();
+            using (var db = new LiteDatabase(LocalData.fileDb))
+            {
+                return await Task.Run(() =>
+                {
+                    var col = db.GetCollection<Partner>(tableName);
+                    return col.Delete(_id);
+                });
+            }
         }
 
-        public Task<List<Partner>> FindAllAsync()
+        public async Task<List<Partner>> FindAllAsync()
         {
-            throw new NotImplementedException();
+            using (var db = new LiteDatabase(LocalData.fileDb))
+            {
+                return await Task.Run(() =>
+                {
+                    var col = db.GetCollection<Partner>(tableName);
+                    _partners = col.FindAll().ToList();
+                    return _partners;
+                });
+            }
         }
 
-        public Task<Partner> FindByIdAsync(int _id)
+        public async Task<Partner> FindByIdAsync(int _id)
         {
-            throw new NotImplementedException();
+            using (var db = new LiteDatabase(LocalData.fileDb))
+            {
+                return await Task.Run(() =>
+                {
+                    var col = db.GetCollection<Partner>(tableName);
+                    return col.FindById(_id);
+                });
+            }
         }
 
-        public Task<bool> UpdateAsync(Partner model)
+        public async Task<bool> UpdateAsync(Partner model)
         {
-            throw new NotImplementedException();
+            model.UpdatedAt = DateTime.Now;
+            model.UpdatedBy = UserName;
+            using (var db = new LiteDatabase(LocalData.fileDb))
+            {
+                return await Task.Run(() =>
+                {
+                    var col = db.GetCollection<Partner>(tableName);
+                    return col.Update(model);
+                });
+            }
         }
     }
 }

@@ -19,6 +19,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\MembershipsDemo.Interfaces\MembershipsDemo.Interfaces.csproj" />
+    <ProjectReference Include="..\MembershipsDemo.LiteDb\MembershipsDemo.LiteDb.csproj" />
     <ProjectReference Include="..\MembershipsDemo.Models\MembershipsDemo.Models.csproj" />
   </ItemGroup>
 
