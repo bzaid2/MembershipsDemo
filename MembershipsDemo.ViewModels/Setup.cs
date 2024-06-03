@@ -1,6 +1,6 @@
 ﻿namespace MembershipsDemo.ViewModels
 {
-    public class Class1
+    public class Setup
     {
 
     }

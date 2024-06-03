@@ -24,7 +24,7 @@ namespace MembershipsDemo.Tests
                 Phone = string.Empty
             };
             mock = new Mock<IPartner>();
-            mock.Setup(p => p.AllAsync).ReturnsAsync(new List<Models.Partner>
+            mock.Setup(p => p.FindAllAsync()).ReturnsAsync(new List<Models.Partner>
             {
                 model
             });
@@ -41,7 +41,7 @@ namespace MembershipsDemo.Tests
             IPartner partnerService = mock.Object;
 
             // Act
-            var result = await partnerService.AllAsync;
+            var result = await partnerService.FindAllAsync();
 
             // Assert
             Assert.IsTrue(result.Count() > 0);
