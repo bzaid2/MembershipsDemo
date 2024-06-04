@@ -1,4 +1,5 @@
 using MembershipsDemo.Interfaces;
+using MembershipsDemo.LiteDb;
 using Moq;
 
 namespace MembershipsDemo.Tests
@@ -24,7 +25,7 @@ namespace MembershipsDemo.Tests
                 Phone = string.Empty
             };
             mock = new Mock<IPartner>();
-            mock.Setup(p => p.AllAsync).ReturnsAsync(new List<Models.Partner>
+            mock.Setup(p => p.FindAllAsync()).ReturnsAsync(new List<Models.Partner>
             {
                 model
             });
@@ -38,10 +39,10 @@ namespace MembershipsDemo.Tests
         public async Task GetAllPartners()
         {
             // Arrange
-            IPartner partnerService = mock.Object;
+            IPartner partnerService = new PartnerService(); // mock.Object;
 
             // Act
-            var result = await partnerService.AllAsync;
+            var result = await partnerService.FindAllAsync();
 
             // Assert
             Assert.IsTrue(result.Count() > 0);
@@ -51,7 +52,7 @@ namespace MembershipsDemo.Tests
         public async Task CreateNewPartner()
         {
             // Arrange
-            IPartner partnerService = mock.Object;
+            IPartner partnerService = new PartnerService(); // mock.Object;
             var model = new Models.Partner
             {
                 CreatedAt = DateTime.Now,
@@ -77,7 +78,7 @@ namespace MembershipsDemo.Tests
         public async Task FindPartnerById()
         {
             // Arrange
-            IPartner partnerService = mock.Object;
+            IPartner partnerService = new PartnerService(); // mock.Object;
             var id = 1;
 
             // Act
@@ -91,8 +92,9 @@ namespace MembershipsDemo.Tests
         public async Task DeletePartnerById()
         {
             // Arrange
-            IPartner partnerService = mock.Object;
-            var id = 1;
+            IPartner partnerService = new PartnerService(); // mock.Object;
+            var partnerList = partnerService.All ?? await partnerService.FindAllAsync();
+            var id = partnerList.OrderByDescending(x => x.Id).FirstOrDefault()!.Id;
 
             // Act
             var result = await partnerService.DeleteAsync(id);
@@ -105,7 +107,7 @@ namespace MembershipsDemo.Tests
         public async Task UpdatePartner()
         {
             // Arrange
-            IPartner partnerService = mock.Object;
+            IPartner partnerService = new PartnerService(); // mock.Object;
             var model = await partnerService.FindByIdAsync(1);
             model.UpdatedAt = DateTime.Now;
             model.UpdatedBy = "Admin2";

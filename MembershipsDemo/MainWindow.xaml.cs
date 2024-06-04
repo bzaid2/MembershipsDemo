@@ -1,13 +1,7 @@
-﻿using System.Text;
+﻿using CommunityToolkit.Mvvm.Messaging;
+using MaterialDesignThemes.Wpf;
+using MembershipsDemo.Messenger;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace MembershipsDemo
 {
@@ -16,9 +10,24 @@ namespace MembershipsDemo
     /// </summary>
     public partial class MainWindow : Window
     {
+        public static Snackbar Snackbar = new();
         public MainWindow()
         {
             InitializeComponent();
+            
+            WeakReferenceMessenger.Default.Register<CloseRootDialogChangedMessage>(
+                this, (r, m) =>
+                {
+                    try
+                    {
+                        DialogHost.Close("RootDialog");
+                    }
+                    catch { }
+                });
+            WeakReferenceMessenger.Default.Register<RootSnackBarChangedMessage>(
+                this, (r, m) => MainSnackbar.MessageQueue?.Enqueue(m.Value));
+
+            Snackbar = MainSnackbar;
         }
     }
 }
