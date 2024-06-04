@@ -1,0 +1,76 @@
+<UserControl x:Class="MembershipsDemo.Views.Partner.PartnerFormView"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns:Model="clr-namespace:MembershipsDemo.Models;assembly=MembershipsDemo.Models"
+             xmlns:System="clr-namespace:System;assembly=mscorlib"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" 
+             d:DesignWidth="800"
+             MinWidth="400">
+    <UserControl.Resources>
+        <ObjectDataProvider x:Key="dataFromEnum" MethodName="GetValues"
+                            ObjectType="{x:Type System:Enum}">
+            <ObjectDataProvider.MethodParameters>
+                <x:Type TypeName="Model:GenderType"/>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </UserControl.Resources>
+    <StackPanel>
+        <TextBox Height="50"
+                 materialDesign:HintAssist.Hint="Nombre(s)" 
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                 Text="{Binding Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <TextBox Height="50"
+                 materialDesign:HintAssist.Hint="Apellido(s)" 
+                 Margin="0,10"
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                 Text="{Binding LastName, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+        <Grid Margin="0,10" >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}"
+                       Text="Género"/>
+            <ListBox Grid.Column="1" 
+                     HorizontalAlignment="Right"
+                     ItemsSource="{Binding Source={StaticResource dataFromEnum}}" 
+                     SelectedItem="{Binding Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     SelectedValuePath="{Binding Gender, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"
+                     Style="{StaticResource MaterialDesignToolToggleListBox}"/>
+        </Grid>
+
+        <Separator/>
+
+        <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}"
+                   Text="Datos de contacto (opcional)"/>
+
+        <TextBox Margin="0,10" 
+                 materialDesign:HintAssist.Hint="Correo electrónico" 
+                 Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                 Text="{Binding Email, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        
+        <Grid Margin="0,10">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+
+            <TextBox Margin="0,0,5,0" 
+                     materialDesign:HintAssist.Hint="Número celular" 
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     Text="{Binding Phone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+
+            <TextBox Grid.Column="1" 
+                     Margin="5,0,0,0" 
+                     materialDesign:HintAssist.Hint="Número de emergencia" 
+                     Style="{StaticResource MaterialDesignOutlinedTextBox}"
+                     Text="{Binding EmergencyPhone, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+        </Grid>
+    </StackPanel>
+</UserControl>

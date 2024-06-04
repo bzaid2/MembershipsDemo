@@ -17,7 +17,9 @@ namespace MembershipsDemo.ViewModels
             sc.AddValidatorsFromAssembly(Assembly.GetAssembly(typeof(Validators.PartnerValidation)));
 
             // ViewModels
-            sc.AddTransient<ViewModels.Partner.AddPartnerViewModel>();
+            sc.AddTransient<Partner.AddPartnerViewModel>();
+            sc.AddSingleton<Partner.PartnersViewModel>();
+            sc.AddSingleton<Partner.UpdatePartnerViewModel>();
 
             return sc.BuildServiceProvider();
         }

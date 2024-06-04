@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="MembershipsDemo.Views.Partner.PartnerDeleteConfirmationView"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:MembershipsDemo.Views.Partner"
+             mc:Ignorable="d" 
+             d:DesignHeight="450" d:DesignWidth="800">
+    <StackPanel>
+
+        <StackPanel HorizontalAlignment="Center"
+                    Margin="20,20,20,10"
+                    Orientation="Horizontal">
+            <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}"
+                       Text="¿Estás seguro de que quieres eliminar el socio '"/>
+            <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}"
+                       Text="{Binding Partner.Name, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+            <TextBlock Style="{StaticResource MaterialDesignBody1TextBlock}"
+                       Text="'?"/>
+        </StackPanel>
+        
+        <StackPanel HorizontalAlignment="Right"
+                    Orientation="Horizontal">
+            <Button Command="{Binding DeleteCommand}" 
+                    Content="Sí, eliminar socio"
+                    IsDefault="True"
+                    Margin="5"
+                    Style="{StaticResource MaterialDesignFlatButton}"/>
+
+            <Button Command="{x:Static materialDesign:DialogHost.CloseDialogCommand}"
+                    Content="Cancelar"
+                    IsCancel="True"
+                    Margin="5"
+                    Style="{StaticResource MaterialDesignFlatButton}"/>
+        </StackPanel>
+    </StackPanel>
+</UserControl>
