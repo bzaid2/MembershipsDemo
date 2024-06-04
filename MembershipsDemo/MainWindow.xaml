@@ -1,12 +1,35 @@
 ﻿<Window x:Class="MembershipsDemo.MainWindow"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:partner="clr-namespace:MembershipsDemo.Views.Partner"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:MembershipsDemo"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
-    <Grid>
+        Title="MainWindow" Height="450" Width="800"
+        WindowStartupLocation="CenterScreen">
+    <materialDesign:DialogHost DialogTheme="Inherit"
+                               Identifier="RootDialog"
+                               x:Name="RootDialog">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
 
-    </Grid>
+            <materialDesign:ColorZone Mode="PrimaryMid" 
+                                      Padding="10">
+                <TextBlock HorizontalAlignment="Center" 
+                           Text="Aplicación de demostración para entrevistas técnicas"
+                           Style="{StaticResource MaterialDesignHeadline5TextBlock}"/>
+            </materialDesign:ColorZone>
+
+            <partner:PartnersView Grid.Row="1"/>
+
+            <materialDesign:Snackbar Grid.Row="1" 
+                                     MessageQueue="{materialDesign:MessageQueue}" 
+                                     x:Name="MainSnackbar"/>
+        </Grid>
+    </materialDesign:DialogHost>
 </Window>
