@@ -7,6 +7,7 @@ namespace MembershipsDemo.ViewModels.Partner
 {
     public partial class PartnersViewModel : ObservableObject
     {
+        private readonly ILoggerManager loggerService;
         private readonly IPartner partnerService;
 
         [ObservableProperty]
@@ -15,8 +16,10 @@ namespace MembershipsDemo.ViewModels.Partner
         private bool _isLoading = false;
 
         public PartnersViewModel(
+            ILoggerManager _loggerService,
             IPartner _partnerService)
         {
+            loggerService = _loggerService;
             partnerService = _partnerService;
             WeakReferenceMessenger.Default.Register<PartnerChangedMessage>(this, (r, m) => LoadPartners());
             LoadPartners();
@@ -27,8 +30,10 @@ namespace MembershipsDemo.ViewModels.Partner
             IsLoading = true;
             Task.Run(async () =>
             {
+                loggerService.Information("Cargando los socios de la base de datos");
                 var result = await partnerService.FindAllAsync();
                 Partners = result.ToList();
+                loggerService.Information(string.Concat("Se encontrarón: ", Partners.Count(), " socios"));
                 IsLoading = false;
                 WeakReferenceMessenger.Default.Send(new PartnerListChangedMessage(true));
             });
