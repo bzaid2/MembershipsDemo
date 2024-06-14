@@ -17,7 +17,7 @@ namespace MembershipsDemo.Models
         [ObservableProperty]
         private string _emergencyPhone = default!;
         [ObservableProperty]
-        private GenderType _gender;
+        private GenderType _gender = GenderType.Hombre;
 
         public override string ToString()
         {
