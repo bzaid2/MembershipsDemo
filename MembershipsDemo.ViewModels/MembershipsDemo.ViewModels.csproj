@@ -17,6 +17,7 @@
     <ProjectReference Include="..\MembershipsDemo.LiteDb\MembershipsDemo.LiteDb.csproj" />
     <ProjectReference Include="..\MembershipsDemo.Messenger\MembershipsDemo.Messenger.csproj" />
     <ProjectReference Include="..\MembershipsDemo.Models\MembershipsDemo.Models.csproj" />
+    <ProjectReference Include="..\MembershipsDemo.Plugins\MembershipsDemo.Plugins.csproj" />
     <ProjectReference Include="..\MembershipsDemo.Validators\MembershipsDemo.Validators.csproj" />
   </ItemGroup>
 

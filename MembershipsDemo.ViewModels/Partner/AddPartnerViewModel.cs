@@ -10,6 +10,7 @@ namespace MembershipsDemo.ViewModels.Partner
 {
     public partial class AddPartnerViewModel : ObservableObject
     {
+        private readonly ILoggerManager loggerService;
         private readonly IPartner PartnerService;
         private readonly IValidator<Models.Partner> validator;
 
@@ -17,9 +18,11 @@ namespace MembershipsDemo.ViewModels.Partner
         private Models.Partner _Partner = new Models.Partner();
 
         public AddPartnerViewModel(
+            ILoggerManager _loggerService,
             IPartner _PartnerService,
             IValidator<Models.Partner> _validator)
         {
+            loggerService = _loggerService;
             PartnerService = _PartnerService;
             validator = _validator;
         }
@@ -32,7 +35,10 @@ namespace MembershipsDemo.ViewModels.Partner
             if (!validatorResult.IsValid)
             {
                 foreach (var err in validatorResult.Errors)
+                {
+                    loggerService.Warning(string.Concat("Advertencia de validación al agregar un socio: ", err.ErrorMessage));
                     WeakReferenceMessenger.Default.Send(new ChildSnackBarChangedMessage(err.ErrorMessage));
+                }
                 return;
             }
             var result = await PartnerService.AddAsync(Partner);

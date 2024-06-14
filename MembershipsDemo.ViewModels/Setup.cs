@@ -11,6 +11,7 @@ namespace MembershipsDemo.ViewModels
             var sc = new ServiceCollection();
 
             // Services
+            sc.AddSingleton<Interfaces.ILoggerManager, Plugins.LoggerManager>();
             sc.AddSingleton<Interfaces.IPartner, LiteDb.PartnerService>();
 
             // Validations
